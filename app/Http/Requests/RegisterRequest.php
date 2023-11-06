@@ -19,7 +19,7 @@ class RegisterRequest extends FormRequest
             "password_confirmation"=> ["required", "string", "min:8"],
             "name"=> ["string", "min:3"],
             "family"=> ["string", "min:3"],
-            "birth"=> "",
+            "birth"=> [],
         ];
     }
 }
