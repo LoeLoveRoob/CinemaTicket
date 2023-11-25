@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Cinema;
+use App\Models\City;
 use App\Policies\CinemaPolicy;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,15 +17,16 @@ class CinemaSeeder extends Seeder
     {
         $defaultCinemas = [
             "اطلس",
-            "هویزه"
+            "هویزه",
+            "افریقا",
+            "پارک بازار",
+            "رجایی",
+            "ملل"
         ];
         foreach ($defaultCinemas as $cinema)
         {
-            Cinema::create([
+            Cinema::factory()->create([
                 "name"=> $cinema,
-                "address"=> fake()->address(),
-                "rating"=> random_int(1, 10),
-                "salons"=> json_encode([1, 2]),
             ]);
         }
     }

@@ -13,11 +13,18 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = User::create([
+        $admin = User::factory()->create([
             "phone"=> "989332246347",
             "password"=> "password",
         ]);
         $admin->roles()->sync([1, 2, 3, 4]);
+        User::factory(40)->create()->each(function ($artist){
+            $artist->roles()->sync([2]);
+        });
+
+        User::factory(20)->create()->each(function ($director){
+            $director->roles()->sync([3]);
+        });
 
     }
 

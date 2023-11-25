@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->foreignId("user_id")->constrained();
-            $table->foreignId("cinema_id")->constrained();
-            $table->time("time");
-            $table->integer("salon");
+            $table->foreignId("session_id")->constrained();
+            $table->string("price");
             $table->timestamps();
         });
     }

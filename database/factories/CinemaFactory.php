@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\City;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,10 @@ class CinemaFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            "city_id"=> City::factory(),
+            "name"=> fake()->lastName(),
+            "address"=> fake()->address(),
+            "rating"=> rand(1, 10),
         ];
     }
 }

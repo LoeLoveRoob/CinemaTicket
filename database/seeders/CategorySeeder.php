@@ -13,18 +13,16 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $defaultCategories = [
-            "فیلم ایرانی",
-            "کودک و نوجوان",
-            "تئاتر",
-            "هنر و تجربه",
-            "تئاتر کمدی",
-            "فیلم خارجی"
-            ];
-        foreach ($defaultCategories as $category)
+        $mainCategories = [
+            "بزرگسال",
+            "خانواده",
+            "کودکان",
+        ];
+
+        foreach ($mainCategories as $mainCategory)
         {
-            Category::create([
-                "name"=> $category,
+            Category::factory()->create([
+                "name"=> $mainCategory,
                 "parent_id"=> null,
             ]);
         }

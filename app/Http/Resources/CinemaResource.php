@@ -14,6 +14,16 @@ class CinemaResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            "city"=> $this->whenLoaded(
+                "city",
+                $this->resource->city->name,
+            ),
+            "name"=> $this->resource->name,
+            "address"=> $this->resource->address,
+            "rating"=> $this->resource->rating,
+            "sans"=> json_decode($this->resource->sans),
+            "salons"=> json_decode($this->resource->salons),
+        ];
     }
 }

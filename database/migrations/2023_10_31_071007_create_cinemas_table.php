@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('cinemas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("city_id")->constrained();
             $table->string("name");
             $table->string("address");
             $table->unsignedFloat("rating");
-            $table->json("salons");
             $table->timestamps();
         });
     }

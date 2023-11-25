@@ -26,8 +26,9 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             GenreSeeder::class,
             CinemaSeeder::class,
+            CitySeeder::class,
             MovieSeeder::class,
-//            TicketSeeder::class,
+            TicketSeeder::class,
         ];
 
         foreach ($seeders as $seeder)

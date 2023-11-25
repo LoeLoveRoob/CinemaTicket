@@ -13,7 +13,7 @@ class CinemaPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class CinemaPolicy
      */
     public function view(User $user, Cinema $cinema): bool
     {
-        //
+        return true;
     }
 
     /**

@@ -29,9 +29,6 @@ class TicketController extends BaseApiController
      */
     public function store(StoreTicketRequest $request): JsonResponse
     {
-        if ($request->ticket()->cannot("create", Ticket::class)){
-            abort(403);
-        }
         $ticket = Ticket::create($request->validated());
         if ($ticket){
             return $this->successResponse(

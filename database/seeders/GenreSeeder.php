@@ -21,7 +21,7 @@ class GenreSeeder extends Seeder
         ];
         foreach ($defaultGenres as $genre)
         {
-            Genre::create([
+            Genre::factory()->create([
                 "name"=> $genre,
             ]);
         }
