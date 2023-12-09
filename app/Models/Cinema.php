@@ -5,8 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
@@ -32,24 +34,19 @@ class Cinema extends Model
     ];
 
 
-    public function city()
+    public function city(): BelongsTo
     {
         return $this->belongsTo(City::class);
     }
-    public function movies(): BelongsToMany
+
+    public function salons(): HasMany
     {
-        return $this->belongsToMany(Movie::class)->withPivotValue("salons");
+        return $this->hasMany(Salon::class);
     }
 
-    public function tickets(): HasMany
+    public function sessions(): HasManyThrough
     {
-        return $this->hasMany(Ticket::class);
+        return $this->hasManyThrough(Session::class, Salon::class);
     }
 
-    public function scopeOrderByCities(Builder $query): Builder
-    {
-        return $query->select('city_id', DB::raw('COUNT(*) as ticket_count'))
-            ->groupBy('city_id')
-            ->orderBy('ticket_count');
-    }
 }

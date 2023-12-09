@@ -30,9 +30,7 @@ class Movie extends Model
         "director",
         "tickets",
         "genres",
-        "cinemas",
         "artists",
-        "cities"
     ];
 
 
@@ -49,11 +47,6 @@ class Movie extends Model
     public function genres(): BelongsToMany
     {
         return $this->belongsToMany(Genre::class);
-    }
-
-    public function cinemas(): BelongsToMany
-    {
-        return $this->belongsToMany(Cinema::class);
     }
 
     public function artists(): BelongsToMany

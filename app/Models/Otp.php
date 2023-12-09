@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -37,5 +38,11 @@ class Otp extends Model
     public function isValid(): bool
     {
         return ! $this->used && ! $this->isExpired();
+    }
+
+    public function scopeActive(Builder $query)
+    {
+        return $query->where("used", true)
+            ->where("expire_at", ">", Carbon::now());
     }
 }

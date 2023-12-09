@@ -26,7 +26,8 @@ class Ticket extends Model
 
     protected $relations = [
         "user",
-        "cinema",
+        "session",
+        "salon",
     ];
 
     public function user(): BelongsTo
@@ -34,25 +35,10 @@ class Ticket extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function cinema(): BelongsTo
+    public function session(): BelongsTo
     {
-        return $this->belongsTo(Cinema::class);
+        return $this->belongsTo(Session::class);
     }
-
-    public function scopeOrderByMovies(Builder $query): Builder
-    {
-        return $query->select('movie_id', DB::raw('COUNT(*) as usage_count'))
-            ->groupBy('movie_id')
-            ->orderBy('usage_count');
-    }
-
-    public function scopeOrderByCinemas(Builder $query): Builder
-    {
-        return $query->select('cinema_id', DB::raw('COUNT(*) as ticket_count'))
-            ->groupBy('cinema_id')
-            ->orderBy('ticket_count');
-    }
-
 
 
 }

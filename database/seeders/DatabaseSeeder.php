@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
             CinemaSeeder::class,
             CitySeeder::class,
             MovieSeeder::class,
+            SalonSeeder::class,
+            SessionSeeder::class,
             TicketSeeder::class,
         ];
 

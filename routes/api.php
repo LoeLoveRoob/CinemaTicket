@@ -22,13 +22,12 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::group(["prefix"=> "home"], function (){
-    Route::post("send-otp", [AuthController::class, "sendOtp"]);
-    Route::post("confirm-otp", [AuthController::class, "confirmOtp"]);
-    Route::post("register", [AuthController::class, "register"])->name("register");
-    Route::post("login", [AuthController::class, "login"])->name("login");
-    Route::delete("logout", [AuthController::class, "logout"]);
-});
+
+Route::post("send-otp", [AuthController::class, "sendOtp"]);
+Route::post("confirm-otp", [AuthController::class, "confirmOtp"]);
+Route::post("register", [AuthController::class, "register"])->name("register");
+Route::post("login", [AuthController::class, "login"])->name("login");
+Route::delete("logout", [AuthController::class, "logout"]);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

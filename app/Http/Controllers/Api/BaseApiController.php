@@ -8,7 +8,11 @@ use Illuminate\Http\Request;
 
 class BaseApiController extends Controller
 {
-    public function successResponse($data, $message, $code=200): JsonResponse
+    public function successResponse(
+        mixed $data,
+        string $message = "operation was successfully!",
+        int $code = 200
+    ): JsonResponse
     {
         return response()->json([
             "data"=> $data,
@@ -17,10 +21,9 @@ class BaseApiController extends Controller
         ]);
     }
 
-    public function errorResponse($error, $message=null, $code=400): JsonResponse
+    public function errorResponse(string $message = "an error accused", $code=404): JsonResponse
     {
         return response()->json([
-            "error"=> $error,
             "message"=> $message,
             "code"=> $code
         ]);

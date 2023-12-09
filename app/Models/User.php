@@ -51,9 +51,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
     protected $relations = [
         "roles",
-        "otps"
+        "otps",
+        "movies",
+        "tickets",
     ];
     public function roles(): BelongsToMany
     {
@@ -63,6 +66,16 @@ class User extends Authenticatable
     public function otps(): HasMany
     {
         return $this->hasMany(Otp::class);
+    }
+
+    public function movies(): BelongsToMany
+    {
+        return $this->belongsToMany(Movie::class);
+    }
+
+    public function tickets(): HasMany
+    {
+        return $this->hasMany(Ticket::class);
     }
 
     public function isAdmin(): bool
@@ -98,24 +111,12 @@ class User extends Authenticatable
         return false;
     }
 
-    public function scopeAdmins(Builder $query)
+    public function scopeRole(Builder $query, string $role)
     {
-        return $query->with("roles")->whereHas("roles", function (Builder $query){
-            $query->where("name", "admin");
+        return $query->with("roles")
+            ->whereHas("roles", function (Builder $query) use ($role){
+            $query->where("name", $role);
         });
     }
 
-    public function scopeArtists(Builder $query)
-    {
-        return $query->with("roles")->whereHas("roles", function (Builder $query){
-            $query->where("name", "artist");
-        });
-    }
-
-    public function scopeDirectors(Builder $query)
-    {
-        return $query->with("roles")->whereHas("roles", function (Builder $query){
-            $query->where("name", "director");
-        });
-    }
 }

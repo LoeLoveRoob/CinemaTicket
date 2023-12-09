@@ -2,24 +2,35 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Actions\User\StoreUserAction;
+use App\Actions\User\UpdateUserAction;
 use App\Http\Controllers\Api\BaseApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends BaseApiController
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, "user");
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(Request $request, UserRepositoryInterface $userRepository): JsonResponse
     {
         return $this->successResponse(
-            UserResource::collection(User::with("roles")->get()),
+            UserResource::collection(
+                $userRepository->paginate($request->input('page_limit'))
+            ),
             "user.success_index"
         );
     }
@@ -29,21 +40,12 @@ class UserController extends BaseApiController
      */
     public function store(StoreUserRequest $request): JsonResponse
     {
-        if ($request->user()->cannot("create", User::class)){
-            abort(403);
-        }
-        $user = User::create($request->validated());
-        if ($user){
-            return $this->successResponse(
-                UserResource::make($user),
-                "user.success_store"
-            );
-        } else {
-            return $this->errorResponse(
-                "False",
-                "user.failed_store"
-            );
-        }
+        return $this->successResponse(
+            UserResource::make(
+                StoreUserAction::run($request->validated())
+            ),
+            "user.success_store",
+        );
     }
 
     /**
@@ -63,7 +65,7 @@ class UserController extends BaseApiController
      */
     public function update(UpdateUserRequest $request, User $user): JsonResponse
     {
-        $user->update($request->validated());
+        $user = UpdateUserAction::run($user, $request->validated());
         return $this->successResponse(
             UserResource::make($user),
             "user.success_update",
@@ -76,16 +78,10 @@ class UserController extends BaseApiController
      */
     public function destroy(User $user): JsonResponse
     {
-        if ($user->delete()){
-            return $this->successResponse(
-                "True",
-                "user.success_destroy",
-            );
-        } else {
-            return $this->errorResponse(
-                "False",
-                "user.failed_destroy"
-            );
-        }
+        $user->delete();
+        return $this->successResponse(
+            "True",
+            "user.success_destroy",
+        );
     }
 }

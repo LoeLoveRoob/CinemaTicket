@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("code", 5);
             $table->string("secret", 30);
             $table->boolean("used");
+            $table->timestamp("expire_at")->nullable();
             $table->timestamps();
         });
     }
